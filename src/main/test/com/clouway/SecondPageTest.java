@@ -1,3 +1,5 @@
+package com.clouway;
+
 import com.clouway.core.SecondPage;
 import org.junit.Test;
 

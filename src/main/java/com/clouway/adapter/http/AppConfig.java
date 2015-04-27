@@ -1,4 +1,4 @@
-package com.clouway.core;
+package com.clouway.adapter.http;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
