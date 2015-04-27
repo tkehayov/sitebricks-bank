@@ -18,8 +18,9 @@ public class RepositoryModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(Repository.class).annotatedWith(Names.named("userRepository")).to(PersistentUserRepository.class);
-    bind(Repository.class).annotatedWith(Names.named("sessionRepository")).to(PersistentSessionRepository.class);
+
+    bind(Storage.class).annotatedWith(Names.named("userRepository")).to(DataStorage.class);
+    bind(Storage.class).annotatedWith(Names.named("sessionRepository")).to(DataStorage.class);
     bind(Storage.class).to(DataStorage.class);
     bind(Validator.class).to(RegexValidator.class);
 

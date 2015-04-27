@@ -50,16 +50,19 @@ public class LoginUserPage {
     if (oneUser != null) {
       HttpServletRequest session = request.get();
       String expression = session.getRequestedSessionId();
+      session.get
       String hashedExpression = Hash.getSha(expression);
 
       deleteCookieFromDb(expression, oneUser);
       sendCookieToUser(response.get(), hashedExpression);
       addCookieInRepository(expression, oneUser);
-
+      System.out.println("correct");
       //TODO redirect to profile page
 //      response.sendRedirect("/profile");
       return;
     }
+    System.out.println("incorrect");
+
     message = "incorrect user/password";
 
 //    request.getRequestDispatcher("/login").forward(request, response);
