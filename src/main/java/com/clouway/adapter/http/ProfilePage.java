@@ -58,6 +58,7 @@ public class ProfilePage {
   }
 
   private Integer getUserId(FluentIterable<Cookie> filter) {
+    System.out.println("paaage");
     Injector injector = Guice.createInjector(new RepositoryModule());
     PersistentSessionRepository repository = injector.getInstance(PersistentSessionRepository.class);
     UserSession session = repository.findOne(filter.get(0).getValue());

@@ -51,6 +51,8 @@ public class DataStorage implements Storage {
       preparedStatement.close();
 
     } catch (PSQLException pe) {
+      pe.printStackTrace();
+
       throw new UsernameAlreadyExistException();
     } catch (SQLException e) {
       e.printStackTrace();

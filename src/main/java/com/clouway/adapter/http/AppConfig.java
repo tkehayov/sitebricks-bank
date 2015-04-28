@@ -14,18 +14,18 @@ import com.google.sitebricks.SitebricksServletModule;
 public class AppConfig extends GuiceServletContextListener {
   @Override
   protected Injector getInjector() {
-    return Guice.createInjector(new SitebricksModule() {
+    return Guice.createInjector(new ServletModule() {
+      @Override
+      protected void configureServlets() {
+        filter("/*").through(SessionFilter.class);
+        filter("/profile/*").through(SecurityFilter.class);
+      }
+    }, new SitebricksModule() {
 
       @Override
       protected void configureSitebricks() {
 
         scan(AppConfig.class.getPackage());
-      }
-    }, new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        filter("/*").through(SessionFilter.class);
-        filter("/profile/*").through(SecurityFilter.class);
       }
     });
 

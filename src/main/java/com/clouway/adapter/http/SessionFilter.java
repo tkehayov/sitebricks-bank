@@ -29,7 +29,7 @@ public class SessionFilter implements Filter {
   private Injector injector;
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    System.out.println("souttt");
+    System.out.println("filter");
     HttpServletRequest servletRequest = (HttpServletRequest) request;
 
     List<Cookie> cookies = Arrays.asList(servletRequest.getCookies());

@@ -49,7 +49,7 @@ public class LoginUserPage {
     User oneUser = userRepository.findOne(userToAdd);
     if (oneUser != null) {
 //      HttpServletRequest session = request.get();
-      String expression = "gerasim";
+      String expression = username;
 
       String hashedExpression = Hash.getSha(expression);
 
