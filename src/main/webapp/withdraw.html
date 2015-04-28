@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>deposit</title>
+    <link rel="stylesheet" type="text/css" href="/style/style.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="/home">home</a></li>
+        <li role="presentation"><a href="/profile/welcome">profile</a></li>
+        <li role="presentation"><a href="/profile/deposit">deposit</a></li>
+        <li role="presentation"><a href="/profile/withdraw">withdraw</a></li>
+        <li role="presentation"><a href="/logout">logout</a></li>
+
+    </ul>
+</div>
+
+<div class="container">
+    <form method="post" action="/profile/withdraw">
+        <div class="form-group">
+            <label for="withdraw">
+                withdraw
+            </label>
+            <input type="hidden" name="type" value="withdraw">
+            <input type="number" step="any" class="form-control" id="withdraw" name="funds">
+        </div>
+        <div>
+            <label class="text-info">
+                ${fundsMessage}
+            </label>
+        </div>
+        <input type="submit" class="btn btn-primary" name="register" value="Submit">
+    </form>
+</div>
+</body>
+</html>

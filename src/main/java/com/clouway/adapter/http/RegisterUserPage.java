@@ -1,6 +1,8 @@
 package com.clouway.adapter.http;
 
+import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentUserRepository;
+import com.clouway.core.Balance;
 import com.clouway.core.Repository;
 import com.clouway.core.RepositoryModule;
 import com.clouway.core.User;
@@ -15,6 +17,7 @@ import com.google.sitebricks.At;
 import com.google.sitebricks.Show;
 import com.google.sitebricks.http.Post;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static java.util.regex.Pattern.compile;
@@ -42,13 +45,19 @@ public class RegisterUserPage {
       }
       return;
     }
+    Repository<User> userRepository = null;
+    Repository<Balance> balanceRepository = null;
     try {
-      Repository<User> userRepository = injector.getInstance(PersistentUserRepository.class);
+      userRepository = injector.getInstance(PersistentUserRepository.class);
+      balanceRepository = injector.getInstance(PersistentBalanceRepository.class);
       userRepository.add(user);
     } catch (UsernameAlreadyExistException e) {
       registerMessage = "username already exists";
       return;
     }
+    User one = userRepository.findOne(user);
+    Balance balance = new Balance(one.getId()).deposit(new BigDecimal("0"));
+    balanceRepository.add(balance);
     registerMessage = "success";
   }
 

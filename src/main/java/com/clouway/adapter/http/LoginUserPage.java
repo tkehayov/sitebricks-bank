@@ -40,7 +40,7 @@ public class LoginUserPage {
   }
 
   @Post
-  public void login() {
+  public String login() {
     Injector injector = Guice.createInjector(new RepositoryModule());
     Repository<User> userRepository = injector.getInstance(PersistentUserRepository.class);
     cookieRepository = injector.getInstance(PersistentSessionRepository.class);
@@ -48,23 +48,21 @@ public class LoginUserPage {
 
     User oneUser = userRepository.findOne(userToAdd);
     if (oneUser != null) {
-      HttpServletRequest session = request.get();
-      String expression = session.getRequestedSessionId();
-      session.get
+//      HttpServletRequest session = request.get();
+      String expression = "gerasim";
+
       String hashedExpression = Hash.getSha(expression);
 
       deleteCookieFromDb(expression, oneUser);
       sendCookieToUser(response.get(), hashedExpression);
       addCookieInRepository(expression, oneUser);
-      System.out.println("correct");
-      //TODO redirect to profile page
-//      response.sendRedirect("/profile");
-      return;
+
+      return "/profile/welcome";
     }
-    System.out.println("incorrect");
 
     message = "incorrect user/password";
 
+    return null;
 //    request.getRequestDispatcher("/login").forward(request, response);
   }
 

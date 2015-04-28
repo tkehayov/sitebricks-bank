@@ -1,8 +1,6 @@
 package com.clouway.core;
 
 import com.clouway.adapter.db.DataStorage;
-import com.clouway.adapter.db.PersistentSessionRepository;
-import com.clouway.adapter.db.PersistentUserRepository;
 import com.clouway.core.validator.RegexValidator;
 import com.clouway.core.validator.Validator;
 import com.google.inject.AbstractModule;
@@ -18,13 +16,15 @@ public class RepositoryModule extends AbstractModule {
 
   @Override
   protected void configure() {
-
     bind(Storage.class).annotatedWith(Names.named("userRepository")).to(DataStorage.class);
     bind(Storage.class).annotatedWith(Names.named("sessionRepository")).to(DataStorage.class);
+    bind(Storage.class).annotatedWith(Names.named("balanceRepository")).to(DataStorage.class);
     bind(Storage.class).to(DataStorage.class);
     bind(Validator.class).to(RegexValidator.class);
-
+//    bind(GuiceFilter.class).to(SecurityFilter.class);
   }
+
+
 
   @Provides
   Provider<Connection> provide() {

@@ -6,7 +6,6 @@ import com.clouway.core.Storage;
 import com.clouway.core.UsernameAlreadyExistException;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.postgresql.util.PSQLException;
 
 import java.sql.Connection;

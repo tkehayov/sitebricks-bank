@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class ConnectionProvider implements Provider<Connection> {
   public Connection get() {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/redneckbank", "postgres", "1234");
+      Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/red-neck-bank", "postgres", "1234");
       return connection;
     } catch (SQLException e) {
       e.printStackTrace();
