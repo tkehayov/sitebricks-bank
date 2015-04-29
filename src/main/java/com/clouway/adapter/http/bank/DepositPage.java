@@ -1,4 +1,4 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentSessionRepository;
@@ -26,9 +26,10 @@ import java.util.List;
 /**
  * @author Tihomir Kehayov <kehayov89@gmail.com>
  */
-@At("/profile/withdraw")
-@Show("/withdraw.html")
-public class WithdrawPage {
+@At("/profile/deposit")
+@Show("/deposit.html")
+
+public class DepositPage {
   public String fundsMessage;
   public String type;
 
@@ -36,11 +37,12 @@ public class WithdrawPage {
   private final Provider<HttpServletRequest> req;
 
   @Inject
-  public WithdrawPage(Provider<HttpServletRequest> req) {
+  public DepositPage(Provider<HttpServletRequest> req) {
     this.req = req;
   }
 
   @Post
+
   public void transactionFunds() {
     List<Cookie> cookies = Arrays.asList(req.get().getCookies());
     FluentIterable<Cookie> filter = getCookieContent(cookies);
@@ -53,6 +55,9 @@ public class WithdrawPage {
         throw new NegativeBalanceException();
       }
 
+      if (type.equals("deposit")) {
+        executeRepositoryTransaction(userId, funds);
+      }
       if (type.equals("withdraw")) {
         executeRepositoryTransaction(userId, funds.negate());
       }

@@ -1,4 +1,4 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.security;
 
 import com.clouway.adapter.db.PersistentSessionRepository;
 import com.clouway.core.Clock;
@@ -29,7 +29,6 @@ public class SessionFilter implements Filter {
   private Injector injector;
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    System.out.println("filter");
     HttpServletRequest servletRequest = (HttpServletRequest) request;
 
     List<Cookie> cookies = Arrays.asList(servletRequest.getCookies());
@@ -42,7 +41,6 @@ public class SessionFilter implements Filter {
   }
 
   public void init(FilterConfig filterConfig) throws ServletException {
-    System.out.println("asdasdasd");
     injector = Guice.createInjector(new RepositoryModule());
   }
 

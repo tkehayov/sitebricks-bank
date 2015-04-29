@@ -1,4 +1,4 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentSessionRepository;
 import com.clouway.adapter.db.PersistentUserRepository;

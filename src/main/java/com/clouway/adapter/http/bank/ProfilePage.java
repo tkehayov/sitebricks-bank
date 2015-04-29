@@ -1,8 +1,11 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentSessionRepository;
-import com.clouway.core.*;
+import com.clouway.core.Balance;
+import com.clouway.core.Repository;
+import com.clouway.core.RepositoryModule;
+import com.clouway.core.UserSession;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.inject.Guice;
@@ -11,7 +14,6 @@ import com.google.inject.Injector;
 import com.google.sitebricks.At;
 import com.google.sitebricks.Show;
 import com.google.sitebricks.http.Get;
-import org.eclipse.jetty.server.session.JDBCSessionManager.Session;
 
 import javax.inject.Provider;
 import javax.servlet.http.Cookie;
@@ -58,7 +60,6 @@ public class ProfilePage {
   }
 
   private Integer getUserId(FluentIterable<Cookie> filter) {
-    System.out.println("paaage");
     Injector injector = Guice.createInjector(new RepositoryModule());
     PersistentSessionRepository repository = injector.getInstance(PersistentSessionRepository.class);
     UserSession session = repository.findOne(filter.get(0).getValue());

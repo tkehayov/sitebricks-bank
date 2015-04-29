@@ -1,4 +1,4 @@
-package com.clouway;
+package clouway;
 
 import com.clouway.core.Provider;
 
@@ -10,6 +10,7 @@ import java.sql.SQLException;
  * @author Tihomir Kehayov (kehayov89@gmail.com)
  */
 public class FakeConnectionProvider implements Provider<Connection> {
+
   public Connection get() {
 
     try {

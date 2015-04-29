@@ -1,4 +1,4 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentUserRepository;
@@ -27,7 +27,7 @@ import static java.util.regex.Pattern.compile;
  */
 @At("/registration")
 @Show("registration.html")
-public class RegisterUserPage {
+public class RegisterPage {
   public String username;
   public String password;
   public String registerMessage;

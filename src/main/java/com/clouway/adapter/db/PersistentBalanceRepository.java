@@ -7,7 +7,7 @@ import com.clouway.core.NegativeBalanceException;
 import com.clouway.core.Repository;
 import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
-import com.clouway.core.User;
+import com.clouway.core.TransactionHistory;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 

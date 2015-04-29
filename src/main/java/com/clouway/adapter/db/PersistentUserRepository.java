@@ -3,6 +3,7 @@ package com.clouway.adapter.db;
 import com.clouway.core.Repository;
 import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
+import com.clouway.core.TransactionHistory;
 import com.clouway.core.User;
 import com.clouway.core.UsernameAlreadyExistException;
 import com.google.inject.Inject;

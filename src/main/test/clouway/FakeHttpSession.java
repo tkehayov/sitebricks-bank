@@ -1,4 +1,4 @@
-package com.clouway;
+package clouway;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;

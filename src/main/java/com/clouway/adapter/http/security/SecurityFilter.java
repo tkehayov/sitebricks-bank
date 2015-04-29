@@ -1,4 +1,4 @@
-package com.clouway.adapter.http;
+package com.clouway.adapter.http.security;
 
 
 import com.clouway.adapter.db.PersistentSessionRepository;
