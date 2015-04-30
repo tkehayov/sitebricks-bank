@@ -19,12 +19,10 @@ public class RepositoryModule extends AbstractModule {
     bind(Storage.class).annotatedWith(Names.named("userRepository")).to(DataStorage.class);
     bind(Storage.class).annotatedWith(Names.named("sessionRepository")).to(DataStorage.class);
     bind(Storage.class).annotatedWith(Names.named("balanceRepository")).to(DataStorage.class);
+    bind(Storage.class).annotatedWith(Names.named("transactionRepository")).to(DataStorage.class);
     bind(Storage.class).to(DataStorage.class);
     bind(Validator.class).to(RegexValidator.class);
-//    bind(GuiceFilter.class).to(SecurityFilter.class);
   }
-
-
 
   @Provides
   Provider<Connection> provide() {

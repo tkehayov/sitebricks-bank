@@ -2,10 +2,13 @@ package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentSessionRepository;
+import com.clouway.adapter.db.PersistentTransactionRepository;
+import com.clouway.adapter.db.TransactionRepository;
 import com.clouway.core.Balance;
 import com.clouway.core.NegativeBalanceException;
 import com.clouway.core.Repository;
 import com.clouway.core.RepositoryModule;
+import com.clouway.core.TransactionHistory;
 import com.clouway.core.UserSession;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
@@ -21,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,9 +88,11 @@ public class WithdrawPage {
   private void executeRepositoryTransaction(Integer userId, BigDecimal funds) {
     Injector injector = Guice.createInjector(new RepositoryModule());
     Repository<Balance> repository = injector.getInstance(PersistentBalanceRepository.class);
+    TransactionRepository transaction = injector.getInstance(PersistentTransactionRepository.class);
+
     BigDecimal userBalance = getBalance(repository, userId).balance();
     Balance balance = new Balance(userId).deposit(userBalance.add(funds));
-
+    transaction.add(new TransactionHistory(userId, funds.toString(), "withdraw", new Date().getTime()));
     repository.update(balance);
   }
 

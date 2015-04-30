@@ -9,6 +9,7 @@ public class Balance {
   public int userId;
   private BigDecimal cash = new BigDecimal("0");
   private String username;
+  private String operationType;
 
   public Balance(int userId) {
     this.userId = userId;

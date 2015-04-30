@@ -3,6 +3,8 @@ package com.clouway.adapter.db;
 import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
 import com.clouway.core.TransactionHistory;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -15,7 +17,8 @@ import java.util.List;
 public class PersistentTransactionRepository implements TransactionRepository {
   private Storage storage;
 
-  public PersistentTransactionRepository(Storage storage) {
+  @Inject
+  public PersistentTransactionRepository(@Named("transactionRepository") Storage storage) {
     this.storage = storage;
   }
 
@@ -27,9 +30,9 @@ public class PersistentTransactionRepository implements TransactionRepository {
     storage.update(sql, transaction.userId, date, funds, transaction.transactionType);
   }
 
-  public <T> List<T> limit(int maxTransactions, int page, int user_id) {
+  public List<TransactionHistory> limit(int maxTransactions, int page, int user_id) {
     return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + user_id + " LIMIT " + maxTransactions
-            + " OFFSET " + page, new RowFetcher() {
+            + " OFFSET " + ((maxTransactions * (page - 1))), new RowFetcher() {
       public TransactionHistory fetchRow(ResultSet rs) throws SQLException {
         Integer userId = rs.getInt(1);
         String funds = rs.getString(2);

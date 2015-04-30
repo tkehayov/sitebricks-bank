@@ -71,26 +71,4 @@ public class TransactionHistoryTest {
     assertThat(limit.get(0).transactionType, is("deposit"));
     assertThat(limit.get(0).userId, is(43));
   }
-
-//  @Test
-//  public void limitFirstFiveTransactions() {
-//    Provider<Connection> fakeProvider = new FakeConnectionProvider();
-//    Storage storage = new DataStorage(fakeProvider);
-//
-//    TransactionRepository repository = new PersistentTransactionRepository(storage);
-//    Long date = dateOf(2014, 1, 23);
-//    repository.add(new TransactionHistory(43, "23.2", "deposit", date));
-//    repository.add(new TransactionHistory(43, "23.2", "deposit", date));
-//    repository.add(new TransactionHistory(43, "21.2", "deposit", date));
-//    repository.add(new TransactionHistory(43, "25.2", "deposit", date));
-//    repository.add(new TransactionHistory(43, "25.2", "deposit", date));
-//    repository.add(new TransactionHistory(42, "25.2", "deposit", date));
-//
-//    List<TransactionHistory> all = repository.findAll();
-//
-//    assertThat(all.size(), is(1));
-//    assertThat(all.get(0).date, is(date));
-//    assertThat(all.get(0).transactionType, is("deposit"));
-//    assertThat(all.get(0).userId, is(transactionHistory.userId));
-//  }
 }

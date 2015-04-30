@@ -2,10 +2,13 @@ package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.adapter.db.PersistentSessionRepository;
+import com.clouway.adapter.db.PersistentTransactionRepository;
+import com.clouway.adapter.db.TransactionRepository;
 import com.clouway.core.Balance;
 import com.clouway.core.NegativeBalanceException;
 import com.clouway.core.Repository;
 import com.clouway.core.RepositoryModule;
+import com.clouway.core.TransactionHistory;
 import com.clouway.core.UserSession;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
@@ -21,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +32,6 @@ import java.util.List;
  */
 @At("/profile/deposit")
 @Show("/deposit.html")
-
 public class DepositPage {
   public String fundsMessage;
   public String type;
@@ -42,7 +45,6 @@ public class DepositPage {
   }
 
   @Post
-
   public void transactionFunds() {
     List<Cookie> cookies = Arrays.asList(req.get().getCookies());
     FluentIterable<Cookie> filter = getCookieContent(cookies);
@@ -58,10 +60,6 @@ public class DepositPage {
       if (type.equals("deposit")) {
         executeRepositoryTransaction(userId, funds);
       }
-      if (type.equals("withdraw")) {
-        executeRepositoryTransaction(userId, funds.negate());
-      }
-
     } catch (NumberFormatException e) {
       fundsMessage = "incorrect";
     } catch (NegativeBalanceException e) {
@@ -89,9 +87,12 @@ public class DepositPage {
   private void executeRepositoryTransaction(Integer userId, BigDecimal funds) {
     Injector injector = Guice.createInjector(new RepositoryModule());
     Repository<Balance> repository = injector.getInstance(PersistentBalanceRepository.class);
+    TransactionRepository transaction = injector.getInstance(PersistentTransactionRepository.class);
+
     BigDecimal userBalance = getBalance(repository, userId).balance();
     Balance balance = new Balance(userId).deposit(userBalance.add(funds));
 
+    transaction.add(new TransactionHistory(userId, funds.toString(), "deposit", new Date().getTime()));
     repository.update(balance);
   }
 

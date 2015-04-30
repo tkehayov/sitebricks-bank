@@ -31,6 +31,7 @@ public class PersistentBalanceRepository implements Repository<Balance> {
     if (type.balance().signum() == -1) {
       throw new NegativeBalanceException();
     }
+
     String sql = "insert into balance(user_id, cash) values(?,?)";
     storage.update(sql, type.userId, type.balance());
   }
@@ -68,6 +69,7 @@ public class PersistentBalanceRepository implements Repository<Balance> {
       throw new NegativeBalanceException();
     }
     String sql = "update balance set cash = ? where user_id = ?";
+
     storage.update(sql, type.balance(), type.userId);
   }
 }
