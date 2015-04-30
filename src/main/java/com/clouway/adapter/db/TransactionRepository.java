@@ -10,5 +10,5 @@ import java.util.List;
 public interface TransactionRepository {
   void add(TransactionHistory transaction);
 
-  <TransactionHistory> List<TransactionHistory> limit(int maxTransactions, int page, int user_id);
+  <TransactionHistory> List<TransactionHistory> limit(int maxTransactions, Integer page, int user_id);
 }

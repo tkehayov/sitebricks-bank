@@ -3,6 +3,7 @@ package com.clouway.adapter.http;
 import com.clouway.adapter.http.security.ConnectionFilter;
 import com.clouway.adapter.http.security.SecurityFilter;
 import com.clouway.adapter.http.security.SessionFilter;
+import com.clouway.core.TransactionHistory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -26,8 +27,9 @@ public class AppConfig extends GuiceServletContextListener {
 
       @Override
       protected void configureSitebricks() {
-
+//        embed(HelloWorld.class).as("Hello");
         scan(AppConfig.class.getPackage());
+//        at("/profile/transaction-history").show(TransactionHistory.class);
       }
     });
 

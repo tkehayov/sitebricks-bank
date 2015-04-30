@@ -1,5 +1,6 @@
 package com.clouway.adapter.db;
 
+import com.clouway.core.NegativePageCursorException;
 import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
 import com.clouway.core.TransactionHistory;
@@ -30,7 +31,11 @@ public class PersistentTransactionRepository implements TransactionRepository {
     storage.update(sql, transaction.userId, date, funds, transaction.transactionType);
   }
 
-  public List<TransactionHistory> limit(int maxTransactions, int page, int user_id) {
+  public List<TransactionHistory> limit(int maxTransactions, Integer page, int user_id) {
+    if (page < 0) {
+      throw new NegativePageCursorException();
+    }
+
     return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + user_id + " LIMIT " + maxTransactions
             + " OFFSET " + ((maxTransactions * (page - 1))), new RowFetcher() {
       public TransactionHistory fetchRow(ResultSet rs) throws SQLException {
@@ -39,7 +44,7 @@ public class PersistentTransactionRepository implements TransactionRepository {
         String type = rs.getString(3);
         Long date = rs.getLong(4);
 
-        return new TransactionHistory(userId, funds, type, date);
+        return new TransactionHistory(userId, funds, type, date).asDate(date);
       }
     });
   }

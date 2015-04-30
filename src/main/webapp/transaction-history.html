@@ -19,8 +19,14 @@
         </ul>
     </div>
     <div class="container">
+        @Repeat(items=transactions, var="transaction")
+        <li>${transaction.funds} ${transaction.utilDate} ${transaction.transactionType}</li>
 
-        aaa
+        <ul>
+            <li><a href="?page=1">first</a></li>
+            <li><a href="?page=${page-1}">prev</a></li>
+            <li><a href="?page=${page+1}">next</a></li>
+        </ul>
     </div>
 </div>
 <script src="/bootstrap/js/jquery-1.11.2.min.js"></script>

@@ -48,9 +48,7 @@ public class LoginUserPage {
 
     User oneUser = userRepository.findOne(userToAdd);
     if (oneUser != null) {
-//      HttpServletRequest session = request.get();
       String expression = username;
-
       String hashedExpression = Hash.getSha(expression);
 
       deleteCookieFromDb(expression, oneUser);
@@ -63,7 +61,6 @@ public class LoginUserPage {
     message = "incorrect user/password";
 
     return null;
-//    request.getRequestDispatcher("/login").forward(request, response);
   }
 
 

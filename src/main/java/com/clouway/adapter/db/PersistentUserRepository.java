@@ -5,6 +5,7 @@ import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
 import com.clouway.core.TransactionHistory;
 import com.clouway.core.User;
+import com.clouway.core.UserRepository;
 import com.clouway.core.UsernameAlreadyExistException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -18,7 +19,7 @@ import static com.clouway.core.Hash.getSha;
 /**
  * @author Tihomir Kehayov (kehayov89@gmail.com)
  */
-public class PersistentUserRepository implements Repository<User> {
+public class PersistentUserRepository implements UserRepository {
   private final Storage storage;
 
   @Inject
@@ -58,6 +59,19 @@ public class PersistentUserRepository implements Repository<User> {
         return new User(name, password).withId(id);
       }
     });
+  }
+
+  public User findOne(Integer userId) {
+    return storage.fetchRow("select username,password,id from users where id='" + userId, new RowFetcher() {
+      public User fetchRow(ResultSet rs) throws SQLException {
+        String name = rs.getString(1);
+        String password = rs.getString(2);
+        Integer id = rs.getInt(3);
+
+        return new User(name, password).withId(id);
+      }
+    });
+
   }
 
   public void delete(User user) {
