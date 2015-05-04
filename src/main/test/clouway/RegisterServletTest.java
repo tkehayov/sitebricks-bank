@@ -2,12 +2,11 @@ package clouway;
 
 import com.clouway.adapter.db.DataStorage;
 import com.clouway.adapter.db.PersistentUserRepository;
-import com.clouway.core.Provider;
-import com.clouway.core.Repository;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.Storage;
 import com.clouway.core.User;
+import com.clouway.core.UserRepository;
 import com.clouway.core.UsernameAlreadyExistException;
-import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -30,7 +28,7 @@ import static org.junit.Assert.*;
  * @author Tihomir Kehayov (kehayov89@gmail.com)
  */
 public class RegisterServletTest {
-  Repository repository;
+  UserRepository repository;
 
   @Mock
   HttpServletRequest request;
@@ -49,8 +47,8 @@ public class RegisterServletTest {
 
   @Before
   public void setUp() throws Exception {
-    Provider<Connection> provider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(provider);
+    ProviderConnection<Connection> providerConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(providerConnection);
     repository = new PersistentUserRepository(storage);
   }
 

@@ -2,13 +2,12 @@ package com.clouway.adapter.http.bank;
 
 import com.clouway.adapter.db.PersistentTransactionRepository;
 import com.clouway.adapter.db.TransactionRepository;
-import com.clouway.core.Provider;
 import com.clouway.core.RepositoryModule;
 import com.clouway.core.TransactionHistory;
-import com.clouway.core.User;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.sitebricks.At;
 import com.google.sitebricks.Show;
 import com.google.sitebricks.http.Get;
@@ -23,21 +22,21 @@ import java.util.List;
 public class TransactionHistoryPage {
   public Integer page = 1;
   private List<TransactionHistory> transactions;
-  private Provider<User> user;
+  private Provider<CurrentUser> currentUser;
 
   @Inject
-  public TransactionHistoryPage(Provider<User> user) {
-    this.user = user;
+  public TransactionHistoryPage(Provider<CurrentUser> currentUser) {
+    this.currentUser = currentUser;
   }
 
   @Get
-
   public void history() {
     Injector injector = Guice.createInjector(new RepositoryModule());
+    Integer id = currentUser.get().get().getId();
     TransactionRepository transaction = injector.getInstance(PersistentTransactionRepository.class);
-    user.get().getId();
-    transactions = transaction.limit(2, page, 2776);
 
+//    transactions = transaction.limit(3, page, id);
+    transactions = transaction.limitLast(2, id);
   }
 
   public List<TransactionHistory> getTransactions() {

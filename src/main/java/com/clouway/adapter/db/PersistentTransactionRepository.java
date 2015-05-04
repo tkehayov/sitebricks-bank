@@ -31,12 +31,12 @@ public class PersistentTransactionRepository implements TransactionRepository {
     storage.update(sql, transaction.userId, date, funds, transaction.transactionType);
   }
 
-  public List<TransactionHistory> limit(int maxTransactions, Integer page, int user_id) {
+  public List<TransactionHistory> limit(int maxTransactions, Integer page, int userId) {
     if (page < 0) {
       throw new NegativePageCursorException();
     }
 
-    return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + user_id + " LIMIT " + maxTransactions
+    return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + userId + " LIMIT " + maxTransactions
             + " OFFSET " + ((maxTransactions * (page - 1))), new RowFetcher() {
       public TransactionHistory fetchRow(ResultSet rs) throws SQLException {
         Integer userId = rs.getInt(1);
@@ -48,5 +48,50 @@ public class PersistentTransactionRepository implements TransactionRepository {
       }
     });
   }
+
+  public List<TransactionHistory> limitLast(int maxTransactions, int userId) {
+    int total = getTotalTransactions(userId);
+    int pages = total / maxTransactions;
+    int limit = total - (pages * maxTransactions);
+
+    return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + userId + " order by id desc LIMIT " + limit
+            + " OFFSET 0", new RowFetcher() {
+      public TransactionHistory fetchRow(ResultSet rs) throws SQLException {
+        Integer userId = rs.getInt(1);
+        String funds = rs.getString(2);
+        String type = rs.getString(3);
+        Long date = rs.getLong(4);
+
+        return new TransactionHistory(userId, funds, type, date).asDate(date);
+      }
+    });
+  }
+
+  private int getTotalTransactions(int userId) {
+    return storage.fetchRow("select count(*) from transaction_history where user_id = " + userId, new RowFetcher() {
+      public Integer fetchRow(ResultSet rs) throws SQLException {
+        int total = rs.getInt(1);
+        return total;
+      }
+    });
+
+  }
+
+//  public List<TransactionHistory> last(int userId) {
+//
+//    return storage.fetchRows("select user_id, funds, type, date from transaction_history where user_id = " + userId + " LIMIT " + maxTransactions
+//            + " OFFSET " + ((maxTransactions * (page - 1))), new RowFetcher() {
+//      public TransactionHistory fetchRow(ResultSet rs) throws SQLException {
+//        Integer userId = rs.getInt(1);
+//        String funds = rs.getString(2);
+//        String type = rs.getString(3);
+//        Long date = rs.getLong(4);
+//
+//        return new TransactionHistory(userId, funds, type, date).asDate(date);
+//      }
+//    });
+//
+//  }
+
 
 }

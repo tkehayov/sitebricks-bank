@@ -1,8 +1,8 @@
+<!doctype html>
 <html>
-<head>
-    <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="/style/style.css">
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+<title>Welcome</title>
+<!--<link rel="stylesheet" type="text/css" href="/style/style.css"/>-->
+<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
 <div class="container">
@@ -19,19 +19,41 @@
         </ul>
     </div>
     <div class="container">
-        @Repeat(items=transactions, var="transaction")
-        <li>${transaction.funds} ${transaction.utilDate} ${transaction.transactionType}</li>
-
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    funds
+                </th>
+                <th>
+                    date
+                </th>
+                <th>
+                    type
+                </th>
+            </tr>
+            @Repeat(items=transactions, var="transaction")
+            <tr>
+                <td>
+                    ${transaction.funds}
+                </td>
+                <td>
+                    ${transaction.utilDate}
+                </td>
+                <td>
+                    ${transaction.transactionType}
+                </td>
+            </tr>
+        </table>
         <ul>
-            <li><a href="?page=1">first</a></li>
-            <li><a href="?page=${page-1}">prev</a></li>
-            <li><a href="?page=${page+1}">next</a></li>
+            <a href="?page=1">first</a>
+            <a href="?page=${page-1}">prev</a>
+            <a href="?page=${page+1}">next</a>
         </ul>
     </div>
 </div>
 <script src="/bootstrap/js/jquery-1.11.2.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
-<script src="/bootstrap/js/navigation.js"></script>
+<!--<script src="/bootstrap/js/navigation.js"></script>-->
 </body>
 </html>
 </body>

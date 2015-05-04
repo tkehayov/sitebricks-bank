@@ -8,5 +8,4 @@ import java.sql.SQLException;
  */
 public interface RowFetcher {
   <T> T fetchRow(ResultSet rs) throws SQLException;
-
 }

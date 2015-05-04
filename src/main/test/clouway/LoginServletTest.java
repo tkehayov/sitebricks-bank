@@ -2,10 +2,9 @@ package clouway;
 
 import com.clouway.adapter.db.DataStorage;
 import com.clouway.adapter.db.PersistentUserRepository;
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.Storage;
 import com.clouway.core.User;
-import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
@@ -14,10 +13,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 
@@ -48,8 +45,8 @@ public class LoginServletTest {
 
   @Before
   public void setUp() throws Exception {
-    Provider<Connection> provider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(provider);
+    ProviderConnection<Connection> providerConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(providerConnection);
     repository = new PersistentUserRepository(storage);
     repository.add(new User("marinov", "ivanov"));
   }

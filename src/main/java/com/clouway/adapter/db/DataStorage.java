@@ -1,6 +1,6 @@
 package com.clouway.adapter.db;
 
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.RowFetcher;
 import com.clouway.core.Storage;
 import com.clouway.core.UsernameAlreadyExistException;
@@ -20,16 +20,16 @@ import java.util.List;
  */
 public class DataStorage implements Storage {
 
-  private Provider<Connection> provider;
+  private ProviderConnection<Connection> providerConnection;
 
   @Inject
-  public DataStorage(Provider<Connection> provider) {
-    this.provider = provider;
+  public DataStorage(ProviderConnection<Connection> providerConnection) {
+    this.providerConnection = providerConnection;
   }
 
   public void update(String sql) {
     try {
-      PreparedStatement statement = provider.get().prepareStatement(sql);
+      PreparedStatement statement = providerConnection.get().prepareStatement(sql);
       statement.executeUpdate();
 
     } catch (SQLException e) {
@@ -43,7 +43,7 @@ public class DataStorage implements Storage {
     }
     PreparedStatement preparedStatement;
     try {
-      preparedStatement = provider.get().prepareStatement(sql);
+      preparedStatement = providerConnection.get().prepareStatement(sql);
       for (int index = 1; index <= args.length; index++) {
         preparedStatement.setObject(index, args[index - 1]);
       }
@@ -63,7 +63,7 @@ public class DataStorage implements Storage {
   public <T> List<T> fetchRows(String query, RowFetcher fetcher) {
     List<T> result = Lists.newArrayList();
     try {
-      Statement stmt = provider.get().createStatement();
+      Statement stmt = providerConnection.get().createStatement();
       ResultSet rs = stmt.executeQuery(query);
       while (rs.next()) {
         T rowItem = fetcher.fetchRow(rs);
@@ -83,7 +83,7 @@ public class DataStorage implements Storage {
     T rowItem = null;
 
     try {
-      Statement stmt = provider.get().createStatement();
+      Statement stmt = providerConnection.get().createStatement();
       ResultSet rs = stmt.executeQuery(sql);
       rs.next();
       rowItem = rowFetcher.fetchRow(rs);

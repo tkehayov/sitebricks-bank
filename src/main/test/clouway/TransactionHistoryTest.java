@@ -4,7 +4,7 @@ import com.clouway.adapter.db.DataStorage;
 import com.clouway.adapter.db.PersistentTransactionRepository;
 import com.clouway.adapter.db.TransactionRepository;
 import com.clouway.core.NegativePageCursorException;
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.Storage;
 import com.clouway.core.TransactionHistory;
 import org.junit.Rule;
@@ -29,8 +29,8 @@ public class TransactionHistoryTest {
 
   @Test
   public void happyPath() {
-    Provider<Connection> fakeProvider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(fakeProvider);
+    ProviderConnection<Connection> fakeProviderConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(fakeProviderConnection);
 
     TransactionRepository repository = new PersistentTransactionRepository(storage);
     Long date = dateOf(2014, 1, 23);
@@ -53,8 +53,8 @@ public class TransactionHistoryTest {
 
   @Test
   public void limitSecondPage() {
-    Provider<Connection> fakeProvider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(fakeProvider);
+    ProviderConnection<Connection> fakeProviderConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(fakeProviderConnection);
 
     TransactionRepository repository = new PersistentTransactionRepository(storage);
     Long date = dateOf(2014, 1, 23);
@@ -80,13 +80,34 @@ public class TransactionHistoryTest {
   public void negativePageCursor() {
     exception.expect(NegativePageCursorException.class);
 
-    Provider<Connection> fakeProvider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(fakeProvider);
+    ProviderConnection<Connection> fakeProviderConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(fakeProviderConnection);
 
     TransactionRepository repository = new PersistentTransactionRepository(storage);
     Long date = dateOf(2014, 1, 23);
     repository.add(new TransactionHistory(43, "23.2", "deposit", date));
 
-    List<TransactionHistory> limit = repository.limit(5, -1, 43);
+    repository.limit(5, -1, 43);
   }
+
+  @Test
+  public void getLastPage() {
+    ProviderConnection<Connection> fakeProviderConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(fakeProviderConnection);
+
+    TransactionRepository repository = new PersistentTransactionRepository(storage);
+    Long date = dateOf(2014, 1, 23);
+
+    repository.add(new TransactionHistory(43, "23.2", "deposit", date));
+    repository.add(new TransactionHistory(43, "23.2", "deposit", date));
+    repository.add(new TransactionHistory(43, "2.2", "deposit", date));
+    repository.add(new TransactionHistory(43, "41.2", "withdraw", date));
+    repository.add(new TransactionHistory(43, "1.2", "withdraw", date));
+
+    List<TransactionHistory> limitLast = repository.limitLast(2, 43);
+
+    assertThat(limitLast.size(), is(1));
+    assertThat(limitLast.get(0).transactionType, is("withdraw"));
+  }
+
 }

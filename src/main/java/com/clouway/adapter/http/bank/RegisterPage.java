@@ -6,6 +6,7 @@ import com.clouway.core.Balance;
 import com.clouway.core.Repository;
 import com.clouway.core.RepositoryModule;
 import com.clouway.core.User;
+import com.clouway.core.UserRepository;
 import com.clouway.core.UsernameAlreadyExistException;
 import com.clouway.core.validator.CorrectMessage;
 import com.clouway.core.validator.IncorrectMessage;
@@ -45,7 +46,7 @@ public class RegisterPage {
       }
       return;
     }
-    Repository<User> userRepository = null;
+    UserRepository userRepository = null;
     Repository<Balance> balanceRepository = null;
     try {
       userRepository = injector.getInstance(PersistentUserRepository.class);

@@ -1,6 +1,6 @@
 package clouway;
 
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * @author Tihomir Kehayov (kehayov89@gmail.com)
  */
-public class FakeConnectionProvider implements Provider<Connection> {
+public class FakeConnectionProviderConnection implements ProviderConnection<Connection> {
 
   public Connection get() {
 

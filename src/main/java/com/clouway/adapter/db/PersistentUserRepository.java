@@ -62,7 +62,7 @@ public class PersistentUserRepository implements UserRepository {
   }
 
   public User findOne(Integer userId) {
-    return storage.fetchRow("select username,password,id from users where id='" + userId, new RowFetcher() {
+    return storage.fetchRow("select username,password,id from users where id=" + userId, new RowFetcher() {
       public User fetchRow(ResultSet rs) throws SQLException {
         String name = rs.getString(1);
         String password = rs.getString(2);

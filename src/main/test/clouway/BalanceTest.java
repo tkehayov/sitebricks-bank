@@ -4,7 +4,7 @@ import com.clouway.adapter.db.DataStorage;
 import com.clouway.adapter.db.PersistentBalanceRepository;
 import com.clouway.core.Balance;
 import com.clouway.core.NegativeBalanceException;
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.Repository;
 import com.clouway.core.Storage;
 import org.junit.Before;
@@ -31,8 +31,8 @@ public class BalanceTest {
 
   @Before
   public void setUp() throws Exception {
-    Provider<Connection> provider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(provider);
+    ProviderConnection<Connection> providerConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(providerConnection);
     repository = new PersistentBalanceRepository(storage);
   }
 

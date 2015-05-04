@@ -3,6 +3,6 @@ package com.clouway.core;
 /**
  * @author Tihomir Kehayov (kehayov89@gmail.com)
  */
-public interface Provider<T> {
+public interface ProviderConnection<T> {
   T get();
 }

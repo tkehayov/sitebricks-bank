@@ -1,6 +1,5 @@
 package com.clouway.core;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

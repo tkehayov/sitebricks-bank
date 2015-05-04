@@ -6,6 +6,7 @@ import com.clouway.core.Hash;
 import com.clouway.core.Repository;
 import com.clouway.core.RepositoryModule;
 import com.clouway.core.User;
+import com.clouway.core.UserRepository;
 import com.clouway.core.UserSession;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -42,7 +43,7 @@ public class LoginUserPage {
   @Post
   public String login() {
     Injector injector = Guice.createInjector(new RepositoryModule());
-    Repository<User> userRepository = injector.getInstance(PersistentUserRepository.class);
+    UserRepository userRepository = injector.getInstance(PersistentUserRepository.class);
     cookieRepository = injector.getInstance(PersistentSessionRepository.class);
     User userToAdd = new User(username, password);
 

@@ -3,7 +3,7 @@ package clouway;
 import com.clouway.adapter.db.DataStorage;
 import com.clouway.adapter.db.PersistentSessionRepository;
 import com.clouway.core.NotValidSessionException;
-import com.clouway.core.Provider;
+import com.clouway.core.ProviderConnection;
 import com.clouway.core.Storage;
 import com.clouway.core.UserSession;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -36,8 +36,8 @@ public class SessionTest {
 
   @Before
   public void setUp() throws Exception {
-    Provider<Connection> provider = new FakeConnectionProvider();
-    Storage storage = new DataStorage(provider);
+    ProviderConnection<Connection> providerConnection = new FakeConnectionProviderConnection();
+    Storage storage = new DataStorage(providerConnection);
     sessionRepository = new PersistentSessionRepository(storage);
 
   }
