@@ -21,6 +21,7 @@ import java.util.List;
 @Show("transaction-history.html")
 public class TransactionHistoryPage {
   public Integer page = 1;
+  public Integer lastPage = 0;
   private List<TransactionHistory> transactions;
   private Provider<CurrentUser> currentUser;
 
@@ -32,11 +33,12 @@ public class TransactionHistoryPage {
   @Get
   public void history() {
     Injector injector = Guice.createInjector(new RepositoryModule());
-    Integer id = currentUser.get().get().getId();
+    Integer userId = currentUser.get().get().getId();
     TransactionRepository transaction = injector.getInstance(PersistentTransactionRepository.class);
 
-//    transactions = transaction.limit(3, page, id);
-    transactions = transaction.limitLast(2, id);
+    transactions = transaction.limit(3, page, userId);
+
+    lastPage = transaction.getLastPage(3, userId);
   }
 
   public List<TransactionHistory> getTransactions() {

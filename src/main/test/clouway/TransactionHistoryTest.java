@@ -104,10 +104,11 @@ public class TransactionHistoryTest {
     repository.add(new TransactionHistory(43, "41.2", "withdraw", date));
     repository.add(new TransactionHistory(43, "1.2", "withdraw", date));
 
-    List<TransactionHistory> limitLast = repository.limitLast(2, 43);
+    int lastPage = repository.getLastPage(2, 43);
+    List<TransactionHistory> limit = repository.limit(2, lastPage, 43);
 
-    assertThat(limitLast.size(), is(1));
-    assertThat(limitLast.get(0).transactionType, is("withdraw"));
+    assertThat(limit.size(), is(1));
+    assertThat(limit.get(0).transactionType, is("withdraw"));
   }
 
 }

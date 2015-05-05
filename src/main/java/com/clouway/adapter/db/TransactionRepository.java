@@ -12,5 +12,5 @@ public interface TransactionRepository {
 
   <TransactionHistory> List<TransactionHistory> limit(int maxTransactions, Integer page, int userId);
 
-  List<TransactionHistory> limitLast(int maxTransactions, int userId);
+  int getLastPage(int maxTransactions, int userId);
 }
